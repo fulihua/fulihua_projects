@@ -24,8 +24,8 @@ public class ArrayTest5_day05 {
     //2,定义一个用于操作的索引。
     int index =chs.length-1;
 
-    for(int x=0;x<8;x++)
-    {
+    for(int x=0;x<8;x++)//十六进制中，每4个二进制位等于1个十六进制位。
+    {//为什么要循环8次？因为循环一次处理4位二进制位，处理完全部的32位二进制需要8次循环。
         int temp=num&15;
         if(temp>9)
             chs[index]=((char)(temp-10+'A'));
