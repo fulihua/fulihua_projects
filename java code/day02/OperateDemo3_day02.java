@@ -1,3 +1,4 @@
+package day02;
 public class OperateDemo3 
 {
     public static void main(String[] args)

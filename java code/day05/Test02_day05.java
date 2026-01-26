@@ -1,3 +1,4 @@
+package day05;
 public class Test02_day05 {
     /*
 思考题：

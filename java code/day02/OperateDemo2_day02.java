@@ -1,10 +1,12 @@
-public class OperateDemo2 {
+package day02;
+public class OperateDemo2_day02 {
     public static void main(String[] args)
     {
         /*
         赋值运算符。
         = += -= *= /= %=
         */
+       
        //int x,y z;
        //x=y=z=3;
         

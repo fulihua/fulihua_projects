@@ -1,3 +1,4 @@
+package day02;
 /*
 需求：写一个helloworld程序，将helloworl字样显示屏幕上。
 
@@ -15,7 +16,7 @@
 测试。javac Java
 */
 //1,用class定义类。
-class Demo2
+class Demo2_day02
 {
     //2,类中定义主方法。
     public static void main(String[] args)

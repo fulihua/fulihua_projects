@@ -1,3 +1,4 @@
+package day02;
 class VarDemo2
 {
     public static void main(String[] args)

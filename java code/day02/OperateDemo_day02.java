@@ -1,4 +1,5 @@
-public class OperateDemo {
+package day02;
+public class OperateDemo_day02 {
     public static void main (String[] args)
     {
         /*

@@ -1,4 +1,5 @@
-class Test
+package day02;
+class Test_day02
 {
     public static void main(String[] args)
     {

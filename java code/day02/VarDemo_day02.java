@@ -1,4 +1,5 @@
-public class VarDemo 
+package day02;
+public class VarDemo_day02 
 {
  public static void main(String[] args)
  {
