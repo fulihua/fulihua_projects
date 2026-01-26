@@ -1,4 +1,5 @@
-public class iftest {
+package day03;
+public class Test_day03 {
     public static void main(String[] args)
     {
         /*

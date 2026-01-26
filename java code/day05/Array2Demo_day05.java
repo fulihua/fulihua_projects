@@ -1,3 +1,4 @@
+package day05;
 public class Array2Demo_day05 {
     /*
     数组。

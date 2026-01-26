@@ -1,4 +1,5 @@
-public class whiletest 
+package day03;
+public class WhileTest_day03 
 {
   public static void main(String[] args)
   {

@@ -1,3 +1,4 @@
+package day05;
 public class Array2Demo2_day05 {
     public static void main(String[] args)
     {

@@ -1,4 +1,5 @@
-public class WhileDemo {
+package day03;
+public class WhileDemo_day03 {
     public static void main(String[] args)
     {
         /*

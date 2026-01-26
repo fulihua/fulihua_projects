@@ -1,4 +1,5 @@
-public class SwitchDemo {
+package day03;
+public class SwitchDemo_day03 {
     public static void main(String[] args)
     {
         /*

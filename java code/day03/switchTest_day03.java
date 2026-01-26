@@ -1,4 +1,5 @@
-public class switchTest {
+package day03;
+public class switchTest_day03 {
    public static void main(String[] args)
    {
     //需求1：根据用户的给定的数值，显示该数值对应的星期。如：2，星期二。
