@@ -10,7 +10,6 @@ ls ThreadTest.java
 
 # 2. 编译（生成 .class 文件）
 javac ThreadTest.java
-
 # 3. 运行主类（不加 .class 后缀）
 java ThreadTest
 
