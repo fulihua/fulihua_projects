@@ -21,6 +21,29 @@ package day15;
 生产者什么时候生产呢？消费者什么时候应该消费呢？
 当盘子中没有面包时，就生产，如果有了面包，就不要生产。
 当盘子中已有面包时，就消费，如果没有面包，就不要消费。
+
+生产者生产了商品后就应该告诉消费者来消费。这时的生产者应该处于等待状态。
+消费者消费了商品后，应该告诉生产者，这是消费者处于等待状态。
+
+等待：wait();
+告诉：notify();//唤醒
+
+问题解决：实现生产一个消费一个。
+
+======================
+
+等待/唤醒机制。
+wait():会让线程属于等待状态，其实就是将线程临时存储到了线程池中。
+notify():会唤醒线程池中任意一个等待的线程。
+notifyAll():会唤醒线程池中所有的等待线程。
+
+记住：这些方法必须使用在同步中，因为必须要标识wait，notify等方法所属的锁。
+同一个锁上的notify，只能唤醒该锁上的被wait的线程。
+
+为什么这些方法定义在Object类中呢？
+因为这些方法必须标识所属的锁，而锁可以是任意对象，任意对象可以调用的方法必然是在Object类中的方法。
+
+举例：小朋友抓人游戏。
 */
 
 
@@ -29,19 +52,39 @@ class Resource
 {
     private String name;
     private int count = 1;
+
+    //定义标记。
+    private boolean flag = false;
+
     //1，提供设置的方法。
     public synchronized void set(String name)
     {
+        if(flag)
+            try{this.wait();}catch(InterruptedException e){}
+        //wait() 的 try-catch 是必需的，因为它会抛出受检异常。
+        //这段代码的意思就是如果flag为true，那么就让生产者等待。
+
         //给成员变量赋值并加上编号。
         this.name= name + count;
         //编号自增
         count++;
         //打印生产了哪个商品。
         System.out.println(Thread.currentThread().getName()+"....生产者..."+this.name);
+
+        //将标记改为true。
+        flag = true;
+        //唤醒消费者。
+        this.notify();
     }
     public synchronized void out()
     {
+        if(!flag)
+            try{this.wait();}catch(InterruptedException e){}
         System.out.println(Thread.currentThread().getName()+"...消费者..."+this.name);
+        //将标记改为false。
+        flag = false;
+        //唤醒生产者。
+        this.notify();
     }
 }
 
@@ -82,7 +125,7 @@ class Consumer implements Runnable
     }
 }
 
-class ThreadDemo8
+class ThreadDemo9
 {
     public static void main(String[] args)
     {
@@ -103,73 +146,3 @@ class ThreadDemo8
 }
 
 
-
-/*3月6日  复习 */
-
-class Resource
-{
-    private String name;
-    private int count = 1;
-
-
-    public synchronized void set(String name)
-    {
-        this.name = name + count;
-        count++;
-        System.out.println(Thread.currentThread().getName()+"...生产者..."+this.name);
-    }
-    public synchronized void out()
-    {
-         System.out.println(Thread.currentThread().getName()+"...消费者..."+this.name);
-    }
-}
-class Producer implements Runnable
-{
-    private Resource r;
-    Producer(Resource r)
-    {
-        this.r = r;
-    }
-    public void run()
-    {
-        while(true)
-        {
-            r.set("面包");
-        }
-    }
-
-}
-
-class Consumer implements Runnable
-{
-    Consumer(Resource r)
-    {
-        this.r = r;
-    }
-    public void run()
-    {
-        while(true)
-        {
-            r.out();
-        }
-    }
-
-}
-
-
-class ThreadDemo8
-{
-    publis static void main(String[] args)
-    {
-        Resource r = new Resource();
-        Producer pro = new Producer(r);
-        Consumer con = new Consumer(r);
-
-        Thread t1 = new Thread(pro);
-        Thread t2 = new Thread(con);
-
-        t1.start();
-        t2.start();
-    }
-
-}
