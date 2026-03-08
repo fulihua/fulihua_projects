@@ -176,3 +176,61 @@ class ThreadTest
         t2.start();
     }
 }
+
+
+//3月8日  复习
+/*
+class Bank
+{
+    private int sum;
+    public int num;
+    private Object obj = new object();
+    public void add(num)
+    {   
+        synchronized(obj)
+        {
+            sum = sum + num;
+            System.out.println("sum="+sum);
+        }
+    }
+
+}
+
+class Consumer implements Runnable
+{
+    private Bank b = new Bank();
+    public void run()
+    {
+        for(int x =0;x<=3;x++)
+        {
+            b.add(100);
+        }
+    }
+}
+class ThreadTest
+{ 
+    public static void main(String[] args)
+    {
+        Consumer con = new Consumer();
+        Thread t1 = new Thread(con);
+        Thread t2 = new Thread(con);
+        t1.start();
+        t2.start();
+    }
+
+}
+
+*/
+
+
+
+
+/*
+让我来总结一下：当我需要在一个新线程中执行任务时：有两种方法：
+1.实现Runnable接口，并通过对象.start()的方法调用。
+
+2.继承Thread类，并通过对象.start()的方法调用。
+
+
+也就是说实现Runnable接口的作用:就是在一个新线程中定义执行任务,然后配合 Thread 才能在新线程中执行该任务。
+*/

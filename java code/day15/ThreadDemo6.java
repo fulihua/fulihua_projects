@@ -10,7 +10,10 @@ package day15;
             }
         
     }
- 
+ /*
+ private Single(){} 是私有构造方法.它的作用是禁止外部通过 new Single() 来创建该类的实例。
+ 外部只能通过 public static Single getInstance() 获取这个唯一的实例。
+ */
 //懒汉式。
 class Single
 {
@@ -81,3 +84,43 @@ class Single
         }
         }
     
+
+
+
+
+
+//3月8日  复习
+
+/*
+//饿汉式
+class Single
+{
+        private static final Single s = new Single();
+        private Single(){}
+        public static Single getInstance()
+        {
+            return s;
+        }
+}
+
+//懒汉式
+class Single
+{
+        private static Single s = null;
+        private Single(){}
+        public static Single getInstance()
+        {
+            if(s == null)
+            {
+                synchronized(Single.class)
+                {
+                    if(s==null)
+                    s=new Single();
+                }
+            }
+            return s;
+        }
+}
+*/
+
+

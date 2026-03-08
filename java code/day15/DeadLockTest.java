@@ -161,6 +161,72 @@ class DeadLockTest
 */
 
 
+//3月8日  复习
+
+/*
+class Test implements Runnable
+{
+    private boolean flag;
+    Test(boolean flag)
+    {
+        this.flag = flag;
+    }
+    public void run()
+    {
+        if(flag)
+        {
+            while(true)
+            {
+                synchronizd(MyLock.locka)
+                {
+                    System.out.println(Thread.currentThread().getName()+"if...locka...");
+                    synchronized(MyLock.lockb)
+                    {
+                        System.out.println(Thread.currentThread().getName()+"if...lockb...");
+                    }
+                }
+            }
+        }
+            else
+            {
+                while(true)
+                {
+                    synchronized(MyLock.lockb)
+                    {
+                        System.out.println(Thread.currentThread().getName()+"else...lockb...");
+                        synchronized(MyLock.lockb)
+                    {
+                        System.out.println(Thread.currentThread().getName()+"else...locka...");
+                        
+                    }
+                    }
+                }    
+            }
+    }
+}
+class MyLock
+{
+    public static final Object locka = new Object();
+    public static final Object lockb = new Object();
+    
+}
+
+class DeadLockTest
+{
+    public static void main(String[] args)
+    {
+         Test t1 = new Test(true);
+         Teat t2 = new Test(false);
+        Thread t11 = new Thread(t1);
+         Thread t22 = new Thread(t1);
+        t11.start();
+        t22.start();
+
+    }
+}
+
+*/
+
 
 
 
