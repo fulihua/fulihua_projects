@@ -158,9 +158,9 @@ class Resource
 
 class Producer implements Runnable
 {
-    private Resource r ;
+    private Resource r ;//保证只创建一个resource，避免每一个线程都创建一个resource出来的情况！
     Producer(Resource r){
-        this.r = r;
+        this.r = r;//这里的this是要保证produce和consumer用的是一个resource！
     }
     public void run()
     {
