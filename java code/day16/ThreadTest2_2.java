@@ -135,3 +135,104 @@ class ThreadTest2
 
 线程协作（如等待资源、信号通知）→ 必须加判断（通常用 while 循环）
 */
+
+
+//3月12日  复习
+
+class Resource
+{
+	String name;
+	String sex;
+    boolean flag = false;
+}
+//赋值线程任务
+class Input implements Runnable
+{
+	private Resource r;
+//	private Object obj = new Object();
+	Input(Resource r)//任务一初始化就必须有要处理的资源。
+	{
+		this.r = r;
+	}
+	public void run()
+	{
+		int x = 0;
+		while(true)
+		{
+			synchronized(r)
+			{
+                if(r.flag)
+                    try{r.wait();}catch(InterruptedException e){}
+				if(x==0)
+				{
+					r.name = "张飞";
+					r.sex = "男";
+				}
+				else
+				{
+					r.name = "rose";
+					r.sex = "女女女女";
+				}
+                 r.flag = true;
+                 r.notify();
+			}
+			x = (x+1)%2;//实现切换。
+		}
+	}
+}
+//获取值线程任务
+class Output implements Runnable
+{
+	private Resource r ;
+//	private Object obj = new Object();
+	Output(Resource r)
+	{
+		this.r = r;
+	}
+	public void run()
+	{
+		while(true)
+		{
+			synchronized(r)
+			{
+                 if(!r.flag)
+                    //synchronized(r) 同步块使用的锁对象是 r（即共享的 Resource 实例）。
+                 // 调用 wait()、notify() 必须在持有该对象锁的前提下，并且调用者必须是锁对象本身。
+                    try{r.wait();}catch(InterruptedException e){}
+				System.out.println(r.name+"....."+r.sex);
+                r.flag = false;
+                r.notify();
+			}
+		}
+	}
+}
+
+class ThreadTest2
+{
+	public static void main(String[] args)
+	{
+		Resource r = new Resource();
+		Input in = new Input(r);
+		Output out = new Output(r);
+		Thread t1 = new Thread(in);
+		Thread t2 = new Thread(out);
+		t1.start();
+		t2.start();
+
+	}
+}
+
+
+
+//注意补充：
+/*
+为什么 notify 要写成 r.notify()？Resource 中定义 notify 了吗？
+
+
+答：notify() 是 java.lang.Object 类的公有方法，所有 Java 对象都继承自 Object，因此任何对象（包括 Resource 实例）都拥有 notify() 和 wait() 方法。
+Resource 类虽然没有显式定义这些方法，但它们是从 Object 继承来的，所以 r.notify() 是合法的。
+
+关键点：wait() 和 notify() 必须由当前持有锁的对象调用。在你的代码中，锁对象是 r，所以必须使用 r.wait() 和 r.notify()。
+
+
+*/

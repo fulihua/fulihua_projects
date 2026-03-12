@@ -1,6 +1,6 @@
 package day16;
 
-class Demo implments Runnable
+class Demo implements Runnable
 {
     public void run()
     {
@@ -23,7 +23,7 @@ class JoinThreadDemo
 
         t1.start();
         t2.start();
-        try{t1.jion();}catch(InterruptedException e){}//用于临时加入一个运算的线程。让该线程运算完，程序才会继续执行。
+        try{t1.join();}catch(InterruptedException e){}//用于临时加入一个运算的线程。让该线程运算完，程序才会继续执行。
         /*主线程执行到这里，知道t1要加入执行，主线程释放了执行权和
         执行资格并处于冻结状态，什么时候恢复呢？等t1线程执行完。
         */
@@ -36,9 +36,44 @@ class JoinThreadDemo
 
         for(int x = 1;x<50;x++)
         {
-            System.out.pritln("main------>"+x);
+            System.out.println("main------>"+x);
         }
         System.out.println("over");
     }
 
+}
+
+//3月12日  复习
+
+
+class Dmeo implements Runnable
+{
+    public void run()
+    {
+        for(int x = 1;x<=40;x++)
+        {
+            System.out.println(Thread.currentThread().getName()+"------>"+x);
+            Thread.yield();
+        }
+    }
+}
+
+class JoinThreadDemo2
+{
+    public static void main(String[] args)
+    {
+        Demo d = new Demo();
+        Thread t1 = new Thread(d);
+        Thread t2 = new Thread(d);
+
+        t1.start();
+        t2.start();
+        try{t1.join();}catch(InterruptedException e){}
+
+        for(int x =1;x<=50;x++)
+        {
+            System.out.println("main------>"+x);
+        }
+        System.out.println("over");
+    }
 }
