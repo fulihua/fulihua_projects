@@ -173,3 +173,72 @@ class ThreadDemo8
     }
 
 }
+
+
+
+/*
+class Resource
+{
+     private String name;
+     private int count = 1;
+     public synchronized set(String name)
+     {
+        this.name = name + count;
+        count++;
+        System.out.println(Thread.currentThread().getName()+"...生产者..."+this.name);
+
+     }
+    public synchronizied viod out()
+    {
+        System.out.println(Thread.currentThread().getName()+"...消费者..."+this.name);
+
+    }
+    
+}   
+class Consumer implements Runnable
+{
+    private Resource r = new Resource;
+    Consumer(Resource)
+    {
+        this.r = r;
+    }
+    void run()
+    {
+        while(true)
+        {
+            r.out()
+        }
+        
+    }
+}
+
+class Producer implements Runnable
+{
+    Produce(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            r.set("面包");
+        }
+    }
+}
+
+
+class ThreadDemo8
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Producer pro = new Producer(r);
+        Consumer con = new Consumer(r);
+        Thread t1 = new Thread(pro);
+        Thread t2 = new Thread(con);
+        t1.start();
+        t2.start();
+    }
+}
+*/

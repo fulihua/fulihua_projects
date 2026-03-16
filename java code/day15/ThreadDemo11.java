@@ -219,3 +219,105 @@ signalAll();
 新程序中，就可以解决这个问题，只用一个锁，
 可以在一个锁上加上多个监视器对象。
 */
+
+
+/*
+
+important java.util.concurrent.locks.*
+class Resource
+{
+    private String name;
+    private int count = 1;
+    private boolean flag;
+    private final Lock lock = new ReentrantLock();
+    private Conditon produce = lock.newCondition();
+    private Conditon consume = lock.newCondition();
+
+    对于Condition的理解：
+    持有锁的仍然是唯一的 Lock 对象。
+    Condition 只是提供了多个等待队列，让不同种类的线程可以分开等待。
+
+    public void set(String name)
+    {
+        lock.lock();
+
+        在多生产多消费的情况下，必须使用 while 循环来检查条件，而不能用 if
+        try{
+        while(flag)
+            try{produce.await();}catch(InerruptedException e){}
+        this.name = name + count;
+        count++;
+        System.out.println(Thread.currentThread().getName()+this.name);
+        flag = true;
+        consume.singnal();
+            }finally{
+            lock.unlock();
+            }
+    }
+    public void out()
+    {
+        try{
+        while(!flag)
+        try{consume.await();}catch(Interruption e){}
+        System.out.println(Thread.currentThread().getName()+this.name);
+        flag = false;
+        produce.notify();
+            }finally
+            {
+                lock.unlock();
+            }
+    }
+}
+class Producer implements Runnable
+{
+    Resource r = new Resource();
+    Producer(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+    while(true)
+        {r.set("面包");}
+        
+    }
+}
+class Consumer implements Runnable
+{
+    Resource r = new Resource();
+    Producer(Resource r)
+    {
+        this.r = r;
+    }
+     public void run()
+    {
+        while(true)
+        {r.out();}
+    }
+}
+
+
+class ThreadDemo
+{
+     public static void main(String[] args)
+    {
+     //1.创建资源对象。
+        Resource r = new Resource();
+        //2，创建线程任务。
+        Producer pro = new Producer(r);
+        Consumer con = new Consumer(r);
+        //3，创建线程。
+        Thread t1 = new Thread(pro);
+        Thread t2 = new Thread(con);
+        Thread t3 = new Thread(pro);
+        Thread t4 = new Thread(con);
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+    } 
+
+}
+*/
+*/

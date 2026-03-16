@@ -144,5 +144,92 @@ class ThreadDemo9
     }
 
 }
+//注意
+/*
+基本类型：byte、short、int、long 默认是 0；float、double 默认是 0.0；char 默认是 '\u0000'；boolean 默认是 false。
+
+引用类型：默认是 null。
 
 
+*/
+
+/*
+class Resource
+{
+     String name;
+     int count = 1;
+     private boolean flag = false;
+     public synchronized void set(String name)
+     {
+        if(flag)
+            try{this.wait();}catch(InterruptedException e){}
+        this.name = name + count;
+        count++;
+        System.out.println(Thread.currentThread().getName()+"...生产者..."+this.name);
+        flag = true;
+        this.notify();
+
+    }
+       
+     }
+    public sychronized viod out()
+    {
+        if(!flag)
+        try{this.wait();}catch(InterruptedException e){}
+        
+        记住：flag的默认值为false！！！
+       
+         System.out.println(Thread.currentThread().getName()+"...消费者..."+this.name);
+            flag = false;
+            this.notify();
+        
+    }
+    
+}   
+class Consumer implements Runnable
+{
+    private Resource r = new Resource;
+    Consumer(Resource)
+    {
+        this.r = r;
+    }
+    void run()
+    {
+        while(true)
+        {
+            r.out()
+        }
+        
+    }
+}
+
+class Producer implements Runnable
+{
+    Produce(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            r.set("面包");
+        }
+    }
+}
+
+
+class ThreadDemo8
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Producer pro = new Producer(r);
+        Consumer con = new Consumer(r);
+        Thread t1 = new Thread(pro);
+        Thread t2 = new Thread(con);
+        t1.start();
+        t2.start();
+    }
+}
+*/

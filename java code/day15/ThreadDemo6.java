@@ -124,3 +124,40 @@ class Single
 */
 
 
+/*
+//饿汉式
+
+class Single
+{
+        private static final s = new Single();
+        private Single(){};
+        public static Single getInstance()//这里的single表示返回一个single类型的数据；
+        {
+            return s;
+        }
+}
+
+//懒汉式
+
+
+class Single
+{
+        pivate static Single s = null;
+        private Single(){}
+        public static Single getSingle()
+        {
+            if(s==null)
+         {   
+             synchronized(Single.class)
+            {
+                if(s == null)
+                s =new sigle();
+            }
+        
+            
+         }
+            
+            return s;
+        }
+}
+*/

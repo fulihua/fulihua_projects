@@ -230,7 +230,82 @@ class DeadLockTest
 
 
 
+关于synchronized同步代码块的内容解释
 
+/*
+synchronized 就是 Java 里实现“锁”的工具
+你可以把 synchronized(某个东西) 理解为：进入代码块之前，必须先拿到这个东西的“钥匙”。如果钥匙被别人拿着，你就得等着。
+
+这个“某个东西”就是锁对象。它可以是任何对象，但关键是：多个线程要用同一个锁对象，才能实现互斥。
+
+当你在代码里写 synchronized(MyLock.LOCKA) 时，意思就是：想进入后面的大括号 {}，必须先拿到 MyLock.LOCKA 这把“钥匙”。如果别的线程已经拿走了这把钥匙，你就得等它用完归还后才能进入。
+
+
+*/
+
+
+/*
+class Test implements Runnable
+{
+    private boolean flag;
+    Test(boolean flag)
+    {
+        this.flag = flag;
+    }
+    public void run()
+    {
+        if(flag)
+        {
+            while(true)
+            {
+                synchronized(MyLock.locka)
+                {
+                    System.out.println(Thread.currentThread().getName()+"...if...locka");
+                    synchronized(MyLock.lockb)
+                    {
+                        System.out.println(Thread.currentThread().getName()+"...if...lockb");
+
+                    }
+                }
+
+            }
+        else
+                {
+                    while（true) 
+                    {
+                        synchronized(MyLock.lockb)
+                        {
+                            System.out.println(Thread.currentThread().getName()+"...else...lockb");
+                            synchronized(MyLock.locka)
+                            {
+                                System.out.println(Thread.currentThread().getName()+"...else...locka");
+                                
+                            }
+                        }
+                    }   
+                }
+        
+    }
+}
+
+class MyLock
+{
+    public static final Object locka = new Object();
+    public static final Object lockb = new Object();
+}
+class DeadLockTest
+{
+    public static void main(String[] args)
+    {
+        Test t1 = new Test(true);
+        Test t2 = new Test(false);
+        Thread t11 = new Thread(t1);
+        Thread t22 = new Thread(t2);
+        t11.start();
+        t22.start();
+    }
+}
+*/
 
 
 

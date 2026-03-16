@@ -271,3 +271,50 @@ class ThreadTest
 
 
 */
+
+
+
+/*
+class Bank
+{
+    private int sum ;
+    在 Java 中，类的成员变量（实例变量） 如果没有显式赋值，
+    系统会在创建对象时自动为其赋予默认值。对于 int 类型，默认值就是 0。
+    所以这里的 private int sum; 等价于 private int sum = 0;，不需要特意写出来。
+    private Object obj = new Object();
+    public void add(int num)
+    {
+        synchronized(obj)
+        {
+            sum = sum + num;
+            System.out.println("sum="+sum);
+        }
+    }
+}
+
+class Consumer implements Runnable
+{
+    private Bank b = new Bank();
+    public void run()
+    {
+        for(int x = 0; x<3;x++)
+        {
+            b.add(100);
+        }
+    }
+
+}
+
+class ThreadTest()
+{
+    public static void main(String[] args)
+    {
+        Consumer t1 = new Consumer();
+        Thread t11 = new Thread(t1);
+        Thread t22 = new Thread(t1);
+        t11.start();
+        t22.start();
+    }
+
+}
+*/

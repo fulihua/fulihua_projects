@@ -205,3 +205,86 @@ class ThreadDemo10
 		t4.start();
 }
 }
+
+
+
+/*
+class Resource
+{
+    private String name;
+    private int count = 1;
+    private boolean flag;
+    public synchronized void set(String name)
+    {
+        while(flag)
+
+        在多生产多消费的情况下，必须使用 while 循环来检查条件，而不能用 if
+
+        try{this.wait();}catch(InterruptedExceptuon e){}
+        this.name = name + count;
+        count++;
+        System.out.println(Thread.currentThread().getName()+this.name);
+        flag = true;
+        this.notiyAll();
+    }
+    public synchronized void out()
+    {
+        while(!flag)
+        try{this.wait();}catch(Interruption e){}
+        System.out.println(Thread.currentThread().getName()+this.name);
+        flag = false;
+        this.notify();
+    }
+}
+class Producer implements Runnable
+{
+    Resource r = new Resource();
+    Producer(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+    while(true)
+        {r.set("面包");}
+        
+    }
+}
+class Consumer implements Runnable
+{
+    Resource r = new Resource();
+    Producer(Resource r)
+    {
+        this.r = r;
+    }
+    void run()
+    {
+        while(true)
+        {r.out();}
+    }
+}
+
+
+class ThreadDemo
+{
+     public static void main(String[] args)
+    {
+     //1.创建资源对象。
+        Resource r = new Resource();
+        //2，创建线程任务。
+        Producer pro = new Producer(r);
+        Consumer con = new Consumer(r);
+        //3，创建线程。
+        Thread t1 = new Thread(pro);
+        Thread t2 = new Thread(con);
+        Thread t3 = new Thread(pro);
+        Thread t4 = new Thread(con);
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+    } 
+
+}
+*/

@@ -77,3 +77,39 @@ class JoinThreadDemo2
         System.out.println("over");
     }
 }
+
+/*
+class Demo implements Runnable
+{
+    public void run()
+    {
+        for(int i= i;i<40;i++)
+        {   
+            System.out.println(Thread.currentThread().getName()+"------>"+x);
+            Thread.yield();
+
+            }
+    }
+
+}
+
+class JionDemo implements Runnable
+{
+    public static void main(String[] args)
+    {
+    Demo demo = new Demo();
+    Thread t1 = new Thread(demo);
+    Thread t2 = new Thread(demo);
+    t1.start();
+    t2.start();
+    try{t1.jion();}catch(InterruptedExcepton e){}
+
+    for(int x =1;x<=50;x++)
+        {
+            System.out.println("main------>"+x);
+        }
+        System.out.println("over");
+    }
+    
+}
+*/

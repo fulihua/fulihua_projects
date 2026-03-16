@@ -63,3 +63,57 @@ class BoundedBuffer{
     答：putptr 才是从 0 开始自动管理的索引。代码中虽然没有显式写“从0开始”，
     但 Java 中整型变量的默认初始值就是 0，因此 putptr 自然从 0 开始。
     */
+
+/*
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.Conditon;
+import java.util.condurrent.locks.ReentrantLock;
+
+
+class BoundedBrffer
+{
+    final Lock lock = new ReentrantLock();
+    final Conditon notFull = lock.newCondition();
+    final Conditon notEmpty = locl.newConditon();
+
+    final Object[] items = new Object[100];
+    int putpter,takeptr,count;
+    public void put(Object x) throws InterruptedException
+    {
+        lock.lock();
+        try
+        {
+            while (count == items.length)
+            {notFull.await();}
+            
+            items[putpter]= x;
+            if(++puter == items.length)
+            putpter = 0;
+            ++count;
+            notEmpty.signal();
+        }
+        finally{
+        lock.unlock();}
+    }
+}
+
+public Object take() throws InterruptedException {
+lock.lock();
+try{
+    while(count == 0)
+    {
+        notEmpty.await();
+        Object x = items[takeptr];
+        if(++takeptr == items.length)
+        takeptr = 0;
+        --count;
+        notFull.singnal();
+         return x;
+            }finally{
+                lock.unlock();
+            }
+    }
+
+}
+*/
+   
