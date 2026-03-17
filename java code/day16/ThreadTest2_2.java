@@ -236,3 +236,105 @@ Resource 类虽然没有显式定义这些方法，但它们是从 Object 继承
 
 
 */
+
+
+/*
+class Resource
+{
+    String name;
+    String sex;
+    private boolean flag = false;
+}
+//赋值线程任务
+class Input implements Runnable
+{
+    private Resource r;
+ //   private Object obj = new Object();
+    Input(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        int x = 0;//x是啥作用啊？后面实现切换。
+        while(true)//这里的目的就是让他一直循环！
+        {           
+            synchronized(r)
+            {
+                if(r.flag)
+
+/*
+//注意：
+在 Java 中，if 语句的括号里是一个布尔表达式，当这个表达式的值为 true 时，就会执行后面的代码。
+所以程序会先确认，If括号里面的是不是true，也就是flag是否为true，如果为true，就等待！！！
+*/
+/* 
+
+                    try{r.wait();}catch(InterruptedException e){}
+
+
+                这里If后为啥不加else？
+
+                当 条件 为 true 时，执行 if 块内的代码（这里是 wait()），然后线程在 wait() 处暂停，不会继续执行 if 块后面的语句。
+
+当 条件 为 false 时，跳过 if 块，直接执行后面的代码（即生产代码）。
+
+所以，if 本身已经起到了“二选一”的作用：要么等待，要么生产。这正是我们需要的逻辑，不需要再写一个 else 分支。
+                if(x == 0)
+                {
+                    r.name = "张飞";
+                    r.sex = "男";
+                }
+                else{
+                    r.name = "rose";
+                    r.sex = "女女女";
+                }
+                r.flag = true;
+                r.notiy();
+            }
+            x = (x+1)%2;//实现切换。
+        }
+    }
+}
+//获取值线程任务
+class Output implements Runnable
+{
+    private Resource r;//为啥out和in里面都要定义，那怎么保证里面的r都是一样的呢？this.r=r;
+ //   private Object obj = new Object();
+    Output(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            synchronized(r)
+            {
+                if(!flag)
+                 try{this.wait();}catch(InterrupException e){}    
+                     System.out.println(r.name+"..."+r.sex);
+                    r.flag = flase;
+                    r.notify();
+                   
+            }
+    
+            
+        }
+    }
+}
+class ThreadTest2
+
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Input in = new Input(r);
+        Output out = new Output(r);
+        Thread t1 = new Thread(in);
+        Thread t2 = new Thread(out);
+        t1.start();
+        t2.start();
+    }
+}
+*/

@@ -52,7 +52,7 @@ class Resource
     {
         lock.lock();
         try{if(flag)
-            try{this.wait();}catch(InterruptedException e){}
+            try{con.wait();}catch(InterruptedException e){}
         this.name = name;
         this.sex = sex;
         flag = true;
@@ -68,7 +68,7 @@ class Resource
     {
         lock.lock();
         try{if(!flag)
-            try{this.wait();}catch(InterruptedException e){}
+            try{con.wait();}catch(InterruptedException e){}
         System.out.println(name+"-------"+sex);
         flag = false;
         con.signal();}
@@ -259,5 +259,101 @@ class ThreadTest2_4
 
 	}
 }
+
+*/
+/* 
+improt java.util.concurrent.locks.*
+
+class Resource
+{
+    private String name;
+    private String sex;
+    private boolean flag = false;
+    private final Lock lock = new ReentrantLock();
+    private Condition con = lock.newConditon();
+    public void set(String name,String sex)
+    {
+        lock.lock();
+        try{ if(flag)
+            try{con.await();}catch(InterruptedException e){}
+        this.name = name;
+        this.sex = sex;
+        flag = true;
+        con.signal();}
+        finally{lock.unlock();}
+       
+    }
+    public void out()
+    {
+        lock.lock();
+        try{if(!flag)
+            try{con.await();}catch(InterruptedException e){}
+        System.out.println(name+"-------"+sex);
+        flag = false;
+        con.signal();}
+        finally{lock.unlock();}
+        
+    }
+
+}
+class Input implements Runnable
+{
+    private Resource r;
+    Input(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        int x = 0;
+        while(true)
+        {
+            if(x==0)
+            {
+                r.set("张飞","男");
+            }
+            else{
+                r.set("rose","女女女");
+            }
+            x=(x+1)%2;
+        }
+    }
+}  
+class Output implements Runnable
+{
+    private Resource r;
+    Output(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            r.out();
+        }
+    }
+
+}
+
+class ThreadTest2_3
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Input in = new Input(r);
+        Output out = new Output(r);
+        Thread t1 = new Thread(in);
+        Thread t2 = new Thread(out);
+        t1.start();
+        t2.start();
+        
+    }
+}
+
+    
+
+
+
 
 */

@@ -274,3 +274,77 @@ Input函数中的这段代码：
 通过在 synchronized(r) 代码块中操作，相当于给 r 对象加锁。同一时刻只能有一个线程持有 r 的锁，从而保证了线程的安全！！！
 
 */
+
+
+
+/*
+class Resource
+{
+    private String name;
+    private String sex;
+
+}
+
+class Input implements Runnable
+{
+    private Resource r;
+    Input(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        int x = 0;
+        while(true)
+        {
+            synchronized(r)
+            {
+                if(x == 0)
+                {
+                    r.name = "张强";
+                    r.sex = "男";
+                }
+                else
+                {
+                     
+                    r.name = "rose";
+                    r.sex = "女"; 
+                }
+            }
+                x=(x+1)%2;
+        }
+    }
+}
+class Output implements Runnable
+{
+     private Resource r;
+    Output(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+       synchronized(r)
+       {
+         System.out.println(r.name + r.sex);
+       }
+    }
+}
+
+class ThreadTest2_1
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Thread t1 = new Thread(in);
+        Thread t2 = new Thread(out);
+        Input in = new Input(r);
+        Output out = new Output(r);
+        t1.start();
+        t2.start();
+    }
+}
+    
+
+
+*/
