@@ -7,3 +7,12 @@ public class StringBufferDemo2 {
      * StringBuffer:同步的，多线程访问安全。
      */
 }
+
+
+//3月22日  复习
+
+/*
+StringBuffer和StringBuilder的区别：
+StringBuilder:非同步的，单线程访问效率高。
+StringBuffer:同步的，多线程访问安全。
+*/

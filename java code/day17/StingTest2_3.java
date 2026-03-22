@@ -77,3 +77,28 @@ z的作用是保证每一次循环截取的字符串长度都一样。
 
 
 */
+
+
+
+// 3月22日  复习
+public class StingTest2_3 
+{ 
+    public static void main(String[] args)
+        {
+            // 案例三： "itcast_sh"要求，将该字符串按照长度由长到短打印出来。 itcast_sh itcast_s tcast_sh
+            String str = "itcast";
+        printStringByLength(str);
+        }
+        public static void printStringByLength(String str)
+    {
+        for(int x = 0;x < str.length();x++)
+        {
+            for(int start=0,end = str.length() -1;end <=str.length();start++,end++ );
+            {
+                String temp = str.substring(start,end);
+                System.out.println(temp);
+            }
+        }
+    }
+}
+   

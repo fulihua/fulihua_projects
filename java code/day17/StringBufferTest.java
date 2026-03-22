@@ -22,12 +22,12 @@ public class StringBufferTest {
         sb.append("[");
         for(int i = 0;i<arr.length;i++)
         {   if(i!=arr.length-1)
-        {sb.append(arr[i]+",");};
+        {sb.append(arr[i]+",");}
         else{
             sb.append(arr[i]+"]");
         }
         }
-        return ab.toString();
+        return sb.toString();
     }
 
 
@@ -57,3 +57,59 @@ Java 类库提供的 StringBuffer 类方法中的toString函数：
 
 转换	String toString()	将 StringBuffer 中当前的内容转换为一个不可变的 String 对象。
 */
+
+
+
+//3月22日  复习
+
+public class StringBufferTest
+{
+    public static void main(String[] args)
+    {
+       /*
+		 * int[] arr = {34,12,89,68};
+		 * 将一个int[]中元素转成字符串  格式 [34,12,89,68]
+		 */  
+
+       int [] arr = {34,12,89,68};
+       String str = toString_2(arr);
+       System.out.println(str);
+
+    }
+
+    public static Sting toString_2(int[] arr)
+    {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("[");
+        for(int i = 0;i<arr.length;i++)
+        {
+            if(i!=arr.length-1)
+            {
+                    sb.append(arr[i]+",");
+            }
+            else{
+                sb.append(arr[i]+"]");
+            }
+
+        }
+        return sb.toString();
+    }
+
+    public static String toString(int[] arr)
+    {
+        String str = "[";
+        for(int i = 0;i<arr.length;i++)
+        {
+            if(i!=arr.length - 1)
+            {
+                str+=arr[i]+",";
+            }
+            else
+            {
+                str+=arr[i]+"]";
+            }
+        }
+        return str;
+    }
+}

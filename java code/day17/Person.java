@@ -72,3 +72,91 @@ public class Person implements Comparable{
 		
     }
 }
+
+
+
+public class Perosn implements Comparable
+{
+    private String name;
+    private int age;
+    public Person()
+    {
+        super();
+    }
+    public Person(String name ,int age)
+    {
+        this.name = name;
+        this.age = age;
+    }
+public String getName()
+{
+    return this.name;
+}
+public void setName(String name)
+{
+    this.name = name;
+}
+public int getAge()
+{
+    return this.age;
+}
+public void setAge(int age)
+{
+    this.age = age;
+}
+
+public boolean equals(Object obj)
+{
+    if(this == obj)
+    {
+        return true;
+    }else if(!(obj = instanceof Person))
+    {
+        throw new ClassCastException("类型错误");
+    }
+    else
+    {
+        Person p = (Person)obj;
+        return this.name.equals(p.name) && this.age == p.age;
+        /*
+        首先将 obj 强制转换为 Person 类型（因为前面已经通过 instanceof 判断过类型，所以安全）。
+
+然后依次比较 name 和 age 是否相等（字符串用 equals，基本类型用 ==）。
+
+只有当两个对象的姓名相同且年龄相同时，才认为它们“相等”。
+        */
+    }
+}
+
+
+public String toString()
+{
+    return "Person [name="+this.name +", age="+this.age + "]";
+}
+public int ComparaTo(Object o)
+{
+    if(!o instanceof Person)
+    {
+        thow new ClassCastException("类型错误");
+    }
+    else{
+        Person p = (Person)o;
+        return this.age - p.age;
+    }
+}
+
+}
+
+
+/*
+疑问：
+this == obj 为什么要比较？
+
+
+
+答：这是 equals 方法中常见的第一步优化：
+如果当前对象和传入对象是同一个引用（即指向堆中的同一个对象），那么它们必然相等，直接返回 true，无需再进行字段比较。
+这能提高性能，尤其是当对象内部字段较多时。
+
+
+*/

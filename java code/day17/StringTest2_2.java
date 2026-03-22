@@ -62,3 +62,28 @@ public class StringTest2_2 {
 
 
 }
+
+
+//3月22日  复习
+
+public class StringTest2_2{
+    public static viod main(String[] args)
+    {
+        String str = "witcasteritcasttyuiitcastodfghjitcast";
+        String key = "ifcast";
+
+        int count = 0;
+        System.out.println("count="+count);
+    }
+    public static int getKeyCount(String str,String key)
+    {
+        int index = 0;
+        int count = 0;
+        while(index = str.indexOf(key,index)!=-1)
+        {
+            index = index+key.length();
+            count++;
+        }
+        return count++;
+    }
+}

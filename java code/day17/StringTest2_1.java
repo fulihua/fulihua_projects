@@ -71,3 +71,53 @@ public class StringTest2_1 {
     }
 
 }
+
+
+//3月22日 复习
+public class StringTest2_1 {
+    
+    public static void main(String[] args)
+    {
+        /*
+		 * 案例一：字符串数组
+		 * ["abc","nba","cctv","itcast"]
+		 * 要求从小到大排序。
+		 * 
+		 */
+		String[] strs = {"abc","nba","cctv","itcast"};
+		printArray(strs);
+		sortString(strs);
+		printArray(strs);
+    }
+    public static void sortString(String[] args)
+    {
+        for(int i = 0;i<strs.length-1;i++)
+        {
+            for(int j = i+1;j<strs.length;j++)
+            {
+                if(strs[i].compareTo(strs[j])>0)
+                {
+                    swap(strs.i,j);
+                }
+            }
+        }
+    }
+    //Arrays.sort(strs);
+    /*
+    *数组元素位置置换。
+    */
+   private static void swap(String[] strs,int i,int j)
+   {
+    String temp = strs[i];
+    strs[i]=strs[j];
+    strs[j]= temp;
+   }
+   private static void printArray(String[] strs)
+   {
+    for(int i = 0;i<strs.length;i++)
+    {
+        System.out.println(strs[i]+" ");
+    }
+    System.out.println();
+   }
+}
