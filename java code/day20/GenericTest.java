@@ -9,7 +9,7 @@ public class GenericTest {
     public static void main(String[] args)
     {
         //创建一个唯一性元素的集合要求排序。set -- treeset//按照长度排序，需要比较器。匿名内部类完成。
-        Set<String> set = new TreeSet<String>(new Comparator<String>() {
+        Set<String> set = new TreeSet<String>(new Comparator<String>(){
             public int compare(String o1,String o2)
             {
                 int temp = o1.length()-o2.length();
@@ -51,6 +51,7 @@ public class GenericTest {
 
 
 
+
 /*
 问： return temp==0?o1.compareTo(o2):temp;
 答：
@@ -68,4 +69,43 @@ public class GenericTest {
 返回正数：当前字符串大于参数字符串。
 
 
+*/
+
+
+//4月12日  复习
+
+public class GenericTest{
+    public static void main(Stirng[] args)
+    {
+        //创建一个唯一性元素的集合要求排序。set--treeset//按照长度排序，需要比较器，匿名内部类完成。
+        Set<String> set = new TreeSet<String>(new Comparator<String>(){
+            public int compare(String o1,String o2)
+            {
+                int temp = o1.length()-o2.length();
+                return temp==0?o1.compareTo(o2):temp;
+            }
+        });
+        //添加元素。
+        set.add("abcde");
+        set.add("java");
+        set.add("hello");
+
+        for(Iterator<String> it = set.iterator();it.hasNext();)
+        {
+            String string = it.next();
+            System.out.println(string);
+        }
+    }
+}
+/*
+问：创建一个唯一性元素的集合要求排序。set -- treeset//按照长度排序，需要比较器。匿名内部类完成。”这段注解是什么意思？
+答：创建一个唯一性元素的集合要求排序：需要存储不重复的元素，并且希望这些元素能按照一定的顺序排列。在Java中。set接口保证元素唯一性，而treeset实现类不仅能保证唯一性，还能对元素进行排序。
+
+“set -- treeset”：指明使用treeset来实现这个集合。
+
+按照长度排序，需要比较器：treeset默认按照元素的自然顺序（对于string就是字典序）排序。但这里需要按照字符串的长度排序，自然顺序不满足需求，因此必须提供一个自定义的比较器（Comparator)来定义“按长度比较”的规则。
+
+“匿名内部类完成”：在创建treeset对象时，直接通过new comparator<String>(){}创建了一个没有名字的内部类实例，并在其中实现了 compare 方法。这种写法避免了单独定义一个类，代码更简洁。
+
+简单来说，这句话解释了为什么使用treeset(需要排序且唯一)，为什么要传入比较器(默认排序不是按长度)，以及如何传入（使用匿名内部类）。
 */
