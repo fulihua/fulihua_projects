@@ -35,7 +35,7 @@ public class MapDemo2 {
         /*
         Set entrySet():将map集合中映射关系存储到了Set集合中。
         映射关系：其实就是指键和值的对应关系。其实就是夫妻的结婚证。
-        映射关系是什么类型的呢？Map,Entry
+        映射关系是什么类型的呢？Map.Entry
         */
 
         Set<Map.Entry<String,String>> entrySet = map.entrySet();
@@ -184,5 +184,126 @@ while(it.hasNext())：每次循环开始时执行，判断是否还有元素。
 it.next()：每次循环内部执行一次，取出一个元素并移动光标。
 
 不是“while执行一次也迭代一次”，而是 while 循环每执行一轮，就会在循环体内调用一次 it.next() 进行一次迭代。
+
+*/
+
+
+
+
+
+
+
+//4月19日  复习
+
+public class MapDemo2{
+    public static void main(String[] args)
+    {
+        Map<String,String> map = new HashMap<String,String>();
+        //Map<键的类型, 值的类型> map = new HashMap<>();
+        map.put("星期一","Monday");
+        map.put("星期日","Sunday");
+
+        //System.out.pritln(map.get("（星期一）")；
+        //怎么获取所有的键呢？应该是set，因为map集合中键需要保证唯一性！！！
+        //找到一个方法 Set<k> keySet();获取map集合中的键的set集合。
+        Set<string> keySet = map.keySet();
+        //因为 keySet() 方法返回的是 Map 中所有键的集合,所以集合的泛型参数与 Map 的键类型一致。
+        for(Iterator<String> it = keySet.iterator();it.hasNext();)
+        {
+            String key = it.next();
+            String value = map.get(key);//通过键获取对应的值
+            System.out.println(key+"::::::"+value);
+        }
+        for(String key:keySet){
+            System.out.println(key+"::::::"+map.get(key));
+        }
+        /*
+        Set entrySet():将map集合中映射关系存储到Set集合中。
+        映射关系：其实就是指键和值的对应关系，其实就是夫妻的结婚证。
+        映射关系是什么类型的呢？map.Entry
+        因此，“映射关系是什么类型的呢？Map.Entry”就是说：映射关系的类型是 Map.Entry。
+
+        */
+       Set<Map.Entry<String,String>> entrySet =  map.entrySet();
+       Iterator<Map.Entry<String,String>> it = entrySet.iterator();
+       //遍历Set中的映射关系对象
+       while(it.hasNext()){
+        Map.Entry<String,String> me = it.next();//取到了映射关系对象。
+        //获取键
+        String key = me.getKey();
+        //获取值
+        String value = me.getValue();
+        System.out.pritln(key+"------"+value);
+
+        /*
+        获取所有的值，因为值不需要保证唯一性。所以返回类型是Collection.
+        姓名--归属地，对应关系，获取所有的归属地。values();
+        */
+       //所有的英文星期。
+       Collection<String> values = map.values();
+       for(String value:values){
+        System.out.println("value:"+value);
+       }
+        
+       }
+    }
+}
+
+
+
+/*
+创建容器：Map<String, String> map = new HashMap<>();
+
+从容器中获取映射关系集合（键值对集合）：Set<Map.Entry<String, String>> entrySet = map.entrySet();
+
+
+*/
+
+/*
+
+问：Set<Map.Entry<String,String>> entrySet = map.entrySet();这个是什么意思<Map.Entry<String,String>>
+答：Set<Map.Entry<String,String>> entrySet = map.entrySet(); 
+这行代码中，<Map.Entry<String,String>> 是泛型参数，表示这个 Set 集合中存储的元素类型是 Map.Entry<String,String>。
+其中 Map.Entry 是 Map 接口的内部接口，代表一个键值对（映射关系）；<String, String> 指明了该键值对的键是 String 类型，值也是 String 类型。
+所以整个集合 entrySet 就是由当前 map 中的所有键值对组成的集合，每个元素都是一个 Map.Entry<String,String> 对象。
+通过遍历这个集合，可以同时获取到每个键值对的键和值.
+
+问：为啥要写<String, String>啊？直接写Map.Entry，表明entryset的类型，不就行了吗？
+答：在 Set<Map.Entry<String,String>> 中，<String,String> 是泛型参数，它指定了 Map.Entry 接口中键和值的具体类型。
+如果只写 Set<Map.Entry>（原始类型），那么从 entrySet 中取出的 Map.Entry 对象，其 getKey() 和 getValue() 方法返回的将是 Object 类型，你需要手动强制转换，且编译器会给出“未检查”的警告。
+而加上 <String,String> 后，编译器可以检查类型安全，并且 getKey() 和 getValue() 直接返回 String 类型，无需强制转换，代码更简洁、安全。因此，推荐使用泛型参数。
+
+
+*/
+
+/*
+问：Map.Entry<String,String> me = it.next();//取到了映射关系对象。为啥这个代码就是取到了映射关系对象？
+答：这行代码中，it 是一个迭代器（Iterator<Map.Entry<String,String>>），它遍历的是 entrySet 集合，而 entrySet 中存储的元素就是 Map.Entry 类型的对象，每一个都代表一个键值对（即映射关系）。
+调用 it.next() 会取出集合中的下一个元素，这个元素就是一个具体的 Map.Entry<String,String> 对象，所以将其赋值给 me 后，me 就代表了一个映射关系，
+可以通过 me.getKey() 和 me.getValue() 获取键和值。
+*/
+
+
+/*
+问：String value = map.get(key);这个方法和String key = me.getKey();这个方法是不一样的，对吗?那String key = me.getKey()这个方法是只能在map.entry里面用吗？
+答：你的理解正确。String value = map.get(key); 和 String key = me.getKey(); 是两种不同的方法：
+
+map.get(key)：这是 Map 接口的方法，需要通过键来查询对应的值。
+
+me.getKey()：这是 Map.Entry 接口的方法，直接返回当前映射关系对象中的键。
+
+me.getKey() 只能用于 Map.Entry 对象，也就是说，只有在获取了 entrySet() 的迭代器或使用 foreach 遍历 entrySet 时，才能使用它。它不能独立于 Map.Entry 存在。所以，是的，me.getKey() 只能在 Map.Entry 的上下文中使用。
+
+
+*/
+
+
+/*
+alues()：返回 Map 中所有值组成的集合（Collection<V>）。
+
+keySet()：返回 Map 中所有键组成的集合（Set<K>）。
+
+entrySet()：返回 Map 中所有键值对（映射关系）组成的集合（Set<Map.Entry<K,V>>）。
+
 
 */
