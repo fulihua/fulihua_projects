@@ -46,3 +46,20 @@ return files.toArray(new File[files.size()]);//将集合转成数组返回。为
 
 
 */
+
+
+//4月29日  复习
+
+public class FileMethodDemo4{
+    public static void main(String[] args){
+        /*
+        需求2：获取目录中的内容，但是只要.java文件
+        */
+       File dir = new File("E:\\Java_code\\day06");
+       File[] files = dir.listFiles(new FilenameFilterBySuffix(".JPG"));//需要传递一个文件名过滤器FilenameFilter对象
+
+       for(File file:files){
+        System.out.println(file.getName());
+       }
+    }
+}
