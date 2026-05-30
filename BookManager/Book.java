@@ -1,5 +1,6 @@
 package BookManager;
 import  java.io.Serializable;
+import java.util.Objects;
 
 
 
@@ -10,6 +11,7 @@ public class Book implements Serializable  {
     private String id,title,writername;                                                                                
     private double price;
     private int stock;
+    private int borrowcount;
 
     public Book(String id,String i,String t,double p,int s){
         this.id = id;
@@ -17,6 +19,7 @@ public class Book implements Serializable  {
         writername = t;
         price = p;
         stock = s;
+        this.borrowcount = 0;
     
     }
     public String getId(){return id;}
@@ -40,6 +43,32 @@ public class Book implements Serializable  {
         this.stock = stock;
     }
    
-   
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        if(!(obj instanceof Book))
+            return false;
+           Book other = (Book)obj;
+            return id.equals(other.id);
+           }
     
+    public int hashCode(){
+        return id.hashCode();
+    }
+
+    public String toString (){
+        return "Book{id = "+id+",title = "+title+",author = "+writername+",price = "+price+",stock = "+stock+"}"; 
+    }
+
+    public int getborrowCount(){
+        return borrowcount;
+    }
+
+    public void setborrowCount(int borrowcount){
+        this.borrowcount = borrowcount;
+    }
 }
+    
+   
+
