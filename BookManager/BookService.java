@@ -12,48 +12,54 @@ public class BookService {
     {for(Book b:books){
         mapbooks.put(b.getId(),b);}
     }
-    public  Book findBookById(String id){
-        return mapbooks.get(id);
+   public Result<Book> findBookById(String id){
+        Book book = mapbooks.get(id);
+        if(book == null){return Result.failure("图书不存在,ID:"+id);}
+        return Result.success(book);
     }
 
-    public String addBook(String title,String writername,double price,int stock){
+    public Result<String> addBook(String title,String writername,double price,int stock){
             String id = UUID.randomUUID().toString();
             Book b = new Book(id,title, writername, price, stock);
             mapbooks.put(id,b);
             Logger.log("添加图书:"+title+"ID为:"+id);
-            return id;
+            return Result.success(id);
     }
 
-    public void deleteBook(String id) throws BookNotFoundException{
-        if (mapbooks.remove(id)==null){throw new BookNotFoundException("ID为"+id+"的图书不存在");}
-        else{Logger.log("删除图书:ID:"+id);}
+    public Result<Void> deleteBook(String id){
+        if (mapbooks.remove(id)==null){return Result.failure("图书不存在，ID：" + id);}
+        else{return Result.success(null);}
      }
 
-    public void borrowBook(String id) throws StockNotEnoughException,BookNotFoundException{
-       Book tempbook = findBookById(id);
-        if(tempbook == null){
-               throw new BookNotFoundException("ID为"+id+"的图书不存在");
+    public Result<Void> borrowBook(String id) {
+        Result<Book> result = findBookById(id);
+       if(!result.isSuccess()){
+               return Result.failure(result.getMessage());
              }
              else{
-                if(tempbook.getStock()>0){
-                    tempbook.setStock(tempbook.getStock()-1);
-                    tempbook.setBorrowCount(tempbook.getBorrowCount()+1);
+                Book book = result.getData();
+                if(book.getStock()>0){
+                    book.setStock(book.getStock()-1);
+                    book.setBorrowCount(book.getBorrowCount()+1);
                     Logger.log("借书:ID:"+id);
+                    return Result.success(null);
                       
                     }
                 
-                else{throw new StockNotEnoughException("库存不足，当前库存为:"+tempbook.getStock());}
+                else{return Result.failure("库存不足，当前库存为:"+book.getStock());}
                 }
      }
 
-    public void  returnBook(String id) throws BookNotFoundException{
-         Book tempbook = findBookById(id);
-         if(tempbook == null){
-                throw new BookNotFoundException("ID为"+id+"的图书不存在");
+    public Result<Void> returnBook(String id) {
+         Result<Book> result  = findBookById(id);
+         if(!result.isSuccess()){
+                return Result.failure(result.getMessage());
             }
             else{
-                tempbook.setStock(tempbook.getStock()+1);
+                Book book = result.getData();
+                book .setStock(book .getStock()+1);
                 Logger.log("还书:ID:"+id);
+                return Result.success(null);
             }
         }
 

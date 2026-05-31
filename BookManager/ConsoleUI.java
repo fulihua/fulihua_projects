@@ -36,7 +36,10 @@ public class ConsoleUI {
             writername = sc.nextLine();
             price = sc.nextDouble();
             stock = sc.nextInt();
-            System.out.println("添加成功!ID是"+bookService.addBook(bookname, writername, price, stock));
+            Result<String> result = bookService.addBook(bookname, writername, price, stock);
+           if(result.isSuccess()){
+            System.out.println("添加成功！ID为"+result.getData());
+           }
         }
             });
         
@@ -60,21 +63,25 @@ public class ConsoleUI {
             }
             System.out.println("请输入要输出图书的ID:");
             String id3 = sc.nextLine().trim();
-            Book tempbook = bookService.findBookById(id3);
-            if(tempbook==null){
-                System.out.println("没有找到对应ID的图书");}
+            Result<Book> result = bookService.findBookById(id3);
+            if(!result.isSuccess()){
+                    System.out.println(result.getMessage());
+                    return;
+            }
             else{
+                        Book tempbook = result.getData();
                         showBookInfo(tempbook);
                         System.out.println("确定要将此图书删除吗？(Yes/NO)");
                         String choice3 = sc.nextLine();
                        if(choice3.equals("Yes")){
-                        try{
-                              bookService.deleteBook(id3);
-                             System.out.println("删除成功！");}
-                        catch(BookNotFoundException e){
-                            System.out.println("删除失败:"+e.getMessage());
-                            }
-                        }   
+                        Result<Void> delresult = bookService.deleteBook(id3);
+                        if(delresult.isSuccess()){
+                            System.out.println("删除成功！");
+                        }
+                        else {
+                            System.out.println("删除失败：" + delresult.getMessage());
+                        }
+                    }
                         else{System.out.println("操作取消");}
                        
                 }           
@@ -88,14 +95,14 @@ public class ConsoleUI {
                 System.out.println("无权限，只有管理员可执行此操作！");
                 return;
             }
-            Book goalbook4 = null;
             System.out.println("请输入要修改图书的ID");
             String id4 = sc.nextLine().trim();
-            goalbook4 = bookService.findBookById(id4);
-            if(goalbook4 == null){
-                 System.out.println("没有找到对应ID的图书");}
+            Result<Book> result = bookService.findBookById(id4);
+            if(!result.isSuccess()){
+                 System.out.println("没有找到对应ID的图书"+result.getMessage());}
             else{
-                showBookInfo(goalbook4);
+                Book book = result.getData();
+                showBookInfo(book);
                 System.out.println("请选择要修改的字段：");
                 System.out.println("1. 书名"); 
                 System.out.println("2. 作者");
@@ -109,37 +116,37 @@ public class ConsoleUI {
                     case 1:
                         System.out.println("请输入新书名:");
                         String newbookname = sc.nextLine();
-                        goalbook4.setTitle(newbookname);
+                        book.setTitle(newbookname);
                          System.out.println("修改成功！");
                         break;
                     case 2:
                         System.out.println("请输入新作者:");
                         String newwritername = sc.nextLine();
-                        goalbook4.setWritername(newwritername);
+                        book.setWritername(newwritername);
                          System.out.println("修改成功！");
                         break;
                      case 3:
                         System.out.println("请输入新价格:");
                         double newprice = sc.nextDouble();
-                        goalbook4.setPrice(newprice);
+                        book.setPrice(newprice);
                          System.out.println("修改成功！");
                         break;
                      case 4:
                         System.out.println("请输入新库存:");
                         int newstock = sc.nextInt();
-                        goalbook4.setStock(newstock);
+                        book.setStock(newstock);
                          System.out.println("修改成功！");
                         break;
                      case 5:
                         System.out.println("请依次输入新书名、新作者、新价格、新库存:");
                         String newbookname4 = sc.nextLine();
-                         goalbook4.setTitle(newbookname4);
+                         book.setTitle(newbookname4);
                         String newwritername4 = sc.nextLine();
-                        goalbook4.setWritername(newwritername4);
+                        book.setWritername(newwritername4);
                         double newprice4 = sc.nextDouble();
-                         goalbook4.setPrice(newprice4);
+                         book.setPrice(newprice4);
                         int newstock4 = sc.nextInt();
-                        goalbook4.setStock(newstock4);
+                        book.setStock(newstock4);
                         System.out.println("修改成功！");
                         break;
                     default:
@@ -168,18 +175,18 @@ public class ConsoleUI {
 
             System.out.println("请输入将借图书的ID");
             String id6 = sc.nextLine().trim();
-            try{
-                bookService.borrowBook(id6);
-                Book borrowbook = bookService.findBookById(id6);
-                System.out.println("借书成功！"+"当前库存为"+borrowbook.getStock());}
-            catch(BookNotFoundException e){
-                System.out.println("借书失败:"+e.getMessage());
+            Result<Void> borrowResult = bookService.borrowBook(id6);
+            if(borrowResult.isSuccess()){
+            Result<Book> result = bookService.findBookById(id6);
+            if(result.isSuccess()){
+                Book book = result.getData();
+                System.out.println("借书成功！"+"当前库存为"+book.getStock());}
             }
-            catch(StockNotEnoughException e){
-                System.out.println("借书失败:"+e.getMessage());
-                }
+            else{
+                System.out.println("借书失败：" + borrowResult.getMessage());
+            }
              }
-        });
+            });
              
         
          commands.put(7,new MenuCommand() {
@@ -187,13 +194,19 @@ public class ConsoleUI {
 
             System.out.println("请输入将归还图书的ID");
             String id7 = sc.nextLine().trim();
-            try{bookService.returnBook(id7);
-                System.out.println("还书成功！");
-            }
-            catch(BookNotFoundException e){
-                System.out.println("还书失败:"+e.getMessage());
+            Result<Void> retunResult = bookService.returnBook(id7);
+            if(retunResult.isSuccess()){
+                 Result<Book> result = bookService.findBookById(id7);
+            if(result.isSuccess()){
+                Book book = result.getData();
+                System.out.println("还书成功！"+"当前库存为"+book.getStock());
                 }
             }
+            else{
+                System.out.println("还书失败！"+retunResult.getMessage());
+            }
+             
+        }
         });
 
          commands.put(8,new MenuCommand() {
