@@ -9,7 +9,8 @@ import java.util.UUID;
 
 public class Main {
     public static void main(String[] args){
-        ArrayList<Book> books = FileHelper.loadBooks("bookmanager.dat");
+        FileHelper helper = FileHelper.getInstance();
+        ArrayList<Book> books = helper.loadBooks("bookmanager.dat");
         BookService bookService = new BookService(books);
         ConsoleUI ui = new ConsoleUI(bookService);
         ui.start();

@@ -3,8 +3,16 @@ package BookManager;
 import java.util.ArrayList;
 import java.io.*;
 
-public class FileHelper {
-    public static void saveBooks(ArrayList<Book> books,String filename){
+    public class FileHelper {
+        private static FileHelper instance;
+        private FileHelper(){}
+    public static FileHelper getInstance(){
+            if(instance == null){
+                 instance = new FileHelper();
+            }
+            return instance;
+        }
+    public void saveBooks(ArrayList<Book> books,String filename){
        try(FileOutputStream fos = new FileOutputStream(filename);
         ObjectOutputStream oos = new ObjectOutputStream(fos))
         { oos.writeObject(books);}
@@ -13,7 +21,7 @@ public class FileHelper {
        }
     }
     @SuppressWarnings("unchecked")
-    public static ArrayList<Book> loadBooks(String filename){
+    public ArrayList<Book> loadBooks(String filename){
         try(FileInputStream fis = new FileInputStream(filename);
         ObjectInputStream ois = new ObjectInputStream(fis)){
             return (ArrayList<Book>) ois.readObject();

@@ -23,7 +23,7 @@ public class ConsoleUI {
         int choice = sc.nextInt();
         sc.nextLine();
         if(choice == 0){
-            FileHelper.saveBooks(bookService.getAllBooks(),"bookmanager.dat");
+            FileHelper.getInstance().saveBooks(bookService.getAllBooks(),"bookmanager.dat");
             break;}
         if(choice == 1){
             if(!(currentUser instanceof Admin)){
