@@ -35,7 +35,7 @@ public class BookService {
              else{
                 if(tempbook.getStock()>0){
                     tempbook.setStock(tempbook.getStock()-1);
-                    tempbook.setborrowCount(tempbook.getborrowCount()+1);
+                    tempbook.setBorrowCount(tempbook.getBorrowCount()+1);
                       
                     }
                 
@@ -71,7 +71,7 @@ public class BookService {
 
     public ArrayList<Book> getTopBooksByBorrowCount(int count){
         ArrayList<Book> temp = new ArrayList<>(mapbooks.values());
-        Collections.sort(temp,(b1,b2)->b2.getborrowCount()-b1.getborrowCount());
+        Collections.sort(temp,(b1,b2)->b2.getBorrowCount()-b1.getBorrowCount());
         if(count > temp.size()){
             count = temp.size();
         }

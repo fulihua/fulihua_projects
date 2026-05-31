@@ -1,32 +1,35 @@
 package BookManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
 public class ConsoleUI {
     private BookService bookService;
     private Scanner sc;
+    private User currentUser;
+    HashMap<String,User> hsmap = new HashMap<String,User>();
     public ConsoleUI(BookService bookService){
         this.bookService = bookService;
         this.sc = new Scanner(System.in);
+        hsmap.put("admin",new Admin("admin", "123"));
+        hsmap.put("normaluser",new NormalUser("normaluser", "123"));
+
     }
     public void start(){
-         while(true){
-        System.out.println("1.添加图书");
-        System.out.println("2.查看所有图书");
-        System.out.println("3.删除图书");
-        System.out.println("4.修改图书信息");
-        System.out.println("5.查询图书");
-        System.out.println("6.借书");
-        System.out.println("7.还书");
-         System.out.println("8.查看图书排行榜（按借阅次数排序");
-        System.out.println("0.退出");
+          login();
+        while(true){
+        currentUser.showMenu();
         int choice = sc.nextInt();
         sc.nextLine();
         if(choice == 0){
             FileHelper.saveBooks(bookService.getAllBooks(),"bookmanager.dat");
             break;}
         if(choice == 1){
+            if(!(currentUser instanceof Admin)){
+                System.out.println("无权限，只有管理员可执行此操作！");
+                continue;
+            }
             System.out.println("请输入按顺序输入：书名，作者，价格，库存。");
             String bookname,writername;
             double price;
@@ -46,6 +49,10 @@ public class ConsoleUI {
                 }
             
         else if(choice == 3){
+             if(!(currentUser instanceof Admin)){
+                System.out.println("无权限，只有管理员可执行此操作！");
+                continue;
+            }
             System.out.println("请输入要输出图书的ID:");
             String id3 = sc.nextLine().trim();
             Book tempbook = bookService.findBookById(id3);
@@ -70,6 +77,10 @@ public class ConsoleUI {
 
         
         else if(choice == 4){
+             if(!(currentUser instanceof Admin)){
+                System.out.println("无权限，只有管理员可执行此操作！");
+                continue;
+            }
             Book goalbook4 = null;
             System.out.println("请输入要修改图书的ID");
             String id4 = sc.nextLine().trim();
@@ -184,8 +195,10 @@ public class ConsoleUI {
         }
 
         
-        
         }
+       
+        
+        
          public  void showBookInfo(Book b){
          System.out.println(b.getId()+"      "+b.getTitle()+"      "+b.getWritename()+"      "+b.getPrice()+"      "+b.getStock());
     }
@@ -203,11 +216,35 @@ public class ConsoleUI {
             StringBuilder sb = new StringBuilder();
             sb.append("ID\t\t\t\t\t|\t书名\t|\t作者\t|\t价格\t|\t库存\t|\t借阅次数\n");
             for(Book b:printbook){
-                sb.append(b.getId()).append("\t|\t").append(b.getTitle()).append("\t|\t").append(b.getWritename()).append("\t|\t").append(b.getPrice()).append("\t|\t").append(b.getStock()).append("\t|\t").append(b.getborrowCount()).append("\n");
+                sb.append(b.getId()).append("\t|\t").append(b.getTitle()).append("\t|\t").append(b.getWritename()).append("\t|\t").append(b.getPrice()).append("\t|\t").append(b.getStock()).append("\t|\t").append(b.getBorrowCount()).append("\n");
             }
             System.out.print(sb.toString());
         }
 
+        public void login(){
+            while(true){
+                System.out.println("请输入用户名:");
+                String temp = sc.nextLine().trim();
+                  if(hsmap.get(temp)==null){
+                    System.out.println("该用户名不存在！");
+                    continue;
+                }
+                else{
+                    User found = hsmap.get(temp);
+                    System.out.println("请输入密码:");
+                    String temppassword = sc.nextLine();
+                    boolean choice = found.checkPassword(temppassword);
+                    if(choice == true){System.out.println("欢迎回来！");
+                    currentUser = found;
+                    break;}
+                    else{System.out.println("信息错误，请重试！");}
+                }
+               
+            }
+            
+        }
+    }
+
     
 
-}
+

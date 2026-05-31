@@ -61,11 +61,11 @@ public class Book implements Serializable  {
         return "Book{id = "+id+",title = "+title+",author = "+writername+",price = "+price+",stock = "+stock+"}"; 
     }
 
-    public int getborrowCount(){
+    public int getBorrowCount(){
         return borrowcount;
     }
 
-    public void setborrowCount(int borrowcount){
+    public void setBorrowCount(int borrowcount){
         this.borrowcount = borrowcount;
     }
 }
