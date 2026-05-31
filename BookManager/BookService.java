@@ -20,11 +20,13 @@ public class BookService {
             String id = UUID.randomUUID().toString();
             Book b = new Book(id,title, writername, price, stock);
             mapbooks.put(id,b);
+            Logger.log("添加图书:"+title+"ID为:"+id);
             return id;
     }
 
     public void deleteBook(String id) throws BookNotFoundException{
         if (mapbooks.remove(id)==null){throw new BookNotFoundException("ID为"+id+"的图书不存在");}
+        else{Logger.log("删除图书:ID:"+id);}
      }
 
     public void borrowBook(String id) throws StockNotEnoughException,BookNotFoundException{
@@ -36,6 +38,7 @@ public class BookService {
                 if(tempbook.getStock()>0){
                     tempbook.setStock(tempbook.getStock()-1);
                     tempbook.setBorrowCount(tempbook.getBorrowCount()+1);
+                    Logger.log("借书:ID:"+id);
                       
                     }
                 
@@ -50,6 +53,7 @@ public class BookService {
             }
             else{
                 tempbook.setStock(tempbook.getStock()+1);
+                Logger.log("还书:ID:"+id);
             }
         }
 
