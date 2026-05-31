@@ -9,6 +9,11 @@ public class ConsoleUI {
     private Scanner sc;
     private User currentUser;
     HashMap<String,User> hsmap = new HashMap<String,User>();
+    HashMap<Integer,MenuCommand> commands = new HashMap<Integer,MenuCommand>();
+    public interface MenuCommand {
+        void execute();
+    }
+
     public ConsoleUI(BookService bookService){
         this.bookService = bookService;
         this.sc = new Scanner(System.in);
@@ -17,18 +22,11 @@ public class ConsoleUI {
 
     }
     public void start(){
-          login();
-        while(true){
-        currentUser.showMenu();
-        int choice = sc.nextInt();
-        sc.nextLine();
-        if(choice == 0){
-            FileHelper.getInstance().saveBooks(bookService.getAllBooks(),"bookmanager.dat");
-            break;}
-        if(choice == 1){
-            if(!(currentUser instanceof Admin)){
+        commands.put(1,new MenuCommand(){
+               public void execute(){
+                if(!(currentUser instanceof Admin)){
                 System.out.println("无权限，只有管理员可执行此操作！");
-                continue;
+               return;
             }
             System.out.println("请输入按顺序输入：书名，作者，价格，库存。");
             String bookname,writername;
@@ -40,18 +38,25 @@ public class ConsoleUI {
             stock = sc.nextInt();
             System.out.println("添加成功!ID是"+bookService.addBook(bookname, writername, price, stock));
         }
-        else if(choice == 2){
+            });
+        
+       commands.put(2,new MenuCommand() {
+            public void execute(){
+
             if(bookService.getAllBooks().isEmpty()==true){
                 System.out.println("暂无图书");}
             else{
                         printBooks(bookService.getAllBooks());
                     }
                 }
+       });
             
-        else if(choice == 3){
+       commands.put(3,new MenuCommand() {
+            public void execute(){
+
              if(!(currentUser instanceof Admin)){
                 System.out.println("无权限，只有管理员可执行此操作！");
-                continue;
+                return;
             }
             System.out.println("请输入要输出图书的ID:");
             String id3 = sc.nextLine().trim();
@@ -74,12 +79,14 @@ public class ConsoleUI {
                        
                 }           
             }
+        });
 
-        
-        else if(choice == 4){
+         commands.put(4,new MenuCommand() {
+            public void execute(){
+
              if(!(currentUser instanceof Admin)){
                 System.out.println("无权限，只有管理员可执行此操作！");
-                continue;
+                return;
             }
             Book goalbook4 = null;
             System.out.println("请输入要修改图书的ID");
@@ -136,15 +143,14 @@ public class ConsoleUI {
                         System.out.println("修改成功！");
                         break;
                     default:
-                        break;
-                }                   
-                                         
+                        break;}                                         
+                }
             }
+        });
 
+         commands.put(5,new MenuCommand() {
+            public void execute(){
 
-
-        }
-        else if(choice == 5){
                 System.out.println("请输入关键字:");
                 String keywords = sc.nextLine();
                 ArrayList<Book> temporary=bookService.searchBooks(keywords);
@@ -152,11 +158,14 @@ public class ConsoleUI {
                     System.out.println("未找到对应的图书");
                 }
                 else{
-                    printBooks(temporary);
-                    
+                    printBooks(temporary);  
+                    }
                 }
-        }
-        else if(choice == 6){
+        });
+
+        commands.put(6,new MenuCommand() {
+            public void execute(){
+
             System.out.println("请输入将借图书的ID");
             String id6 = sc.nextLine().trim();
             try{
@@ -168,11 +177,14 @@ public class ConsoleUI {
             }
             catch(StockNotEnoughException e){
                 System.out.println("借书失败:"+e.getMessage());
-            }
-        }
+                }
+             }
+        });
              
         
-        else if(choice == 7){
+         commands.put(7,new MenuCommand() {
+            public void execute(){
+
             System.out.println("请输入将归还图书的ID");
             String id7 = sc.nextLine().trim();
             try{bookService.returnBook(id7);
@@ -180,23 +192,37 @@ public class ConsoleUI {
             }
             catch(BookNotFoundException e){
                 System.out.println("还书失败:"+e.getMessage());
+                }
             }
-        }
-        else if(choice == 8){
+        });
+
+         commands.put(8,new MenuCommand() {
+            public void execute(){
+
             System.out.println("想要查询排行榜前多少名？");
             int count = sc.nextInt();
             ArrayList<Book>  temp = bookService.getTopBooksByBorrowCount(count);
             if(temp.isEmpty()){System.out.println("暂无排行榜");}
             else{printBooksAppand(temp);}}
+        });
 
+          login();
+        while(true){
+        currentUser.showMenu();
+        int choice = sc.nextInt();
+        sc.nextLine();
+        MenuCommand cmd = commands.get(choice);
+        if(choice == 0){
+            FileHelper.getInstance().saveBooks(bookService.getAllBooks(),"bookmanager.dat");
+            break;}
+        if(cmd != null){cmd.execute();  
+        }
         else{
                 System.out.println("无效选项"); 
             }
         }
-
-        
-        }
-       
+    }
+    
         
         
          public  void showBookInfo(Book b){
