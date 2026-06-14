@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易登录界面</title>
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        
+        .login-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1677ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-form button:hover {
+            background-color: #4096ff;
+        }
+    </style>
+</head>
+<body>
+    <form class="login-form" id="loginForm">
+        <h2 style="text-align: center; margin-bottom: 20px;">登录</h2>
+        <input type="text" id="username" placeholder="请输入用户名">
+        <input type="password" id="password" placeholder="请输入密码">
+        <button type="button" onclick="checkLogin()">登录</button>
+    </form>
+
+    <script>
+        function checkLogin() {
+            // 获取输入框内容并去除首尾空格
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            // 判断输入框是否为空
+            if (username === '' || password === '') {
+                alert('请输入完整信息');
+            } else {
+                alert('登录成功');
+            }
+        }
+    </script>
+</body>
+</html>
