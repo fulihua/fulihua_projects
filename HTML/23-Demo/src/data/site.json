@@ -1,0 +1,27 @@
+{
+  "brand": "LUMI Mall",
+  "slides": [
+    {
+      "eyebrow": "LUXURY DAILY GOODS",
+      "title": "LUMI Mall",
+      "text": "为日常生活挑选更有质感的好物。",
+      "image": "/images/hero-living.jpg"
+    },
+    {
+      "eyebrow": "NEW ARRIVAL",
+      "title": "精选生活好物",
+      "text": "用最简单的轮播图完成电商首页主视觉。",
+      "image": "/images/product-candle.jpg"
+    },
+    {
+      "eyebrow": "CURATED HOME",
+      "title": "高级感页面体验",
+      "text": "学习 ref、事件绑定、数组下标和组件传值。",
+      "image": "/images/product-mug.jpg"
+    }
+  ],
+  "about": {
+    "title": "轻量级 Vue3 电商实训项目",
+    "text": "第 1 阶段只做首页轮播和品牌页，让学生先理解路由、组件和 JSON 数据。"
+  }
+}

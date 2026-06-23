@@ -1,31 +1,34 @@
 <template>
   <div class="app-shell">
+    <!-- 只保留顶部头部导航（老师页面唯一顶部栏） -->
+
     <AppHeader/>
+
+    <!-- 路由渲染容器，首页/关于页面在这里展示 -->
     <main class="app-main">
-      <HomeView/>
-    </main>
+      <Router-view /><!--实现页面切换功能，是一个存放切换页面的容器-->
+    </main >
+
+    <!-- 底部页脚 -->
     <AppFooter/>
   </div>
 </template>
 
 <script setup>
-// 同步修改组件导入名称，和文件、模板统一
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
-import HomeView from './views/HomeView.vue';
 </script>
 
 <style lang="css" scoped>
 .app-shell{
-  display: flex; /* 开启弹性布局，容器拥有flex特性 */
-  flex-direction: column;/* 将主轴改为垂直上下，实现子元素上中下排列 */
-  min-height: 100vh;/* 容器高度铺满整个浏览器屏幕 */
+  display: flex; 
+  flex-direction: column;
+  min-height: 100vh;
 }
 .app-main{
   border: 2px solid green;
   display: flex;
-  flex: 1;/*竖向占据了整个空间*/
+  flex: 1;
   flex-direction: column;
-
 }
 </style>
