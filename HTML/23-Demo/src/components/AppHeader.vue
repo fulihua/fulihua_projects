@@ -1,6 +1,6 @@
 <template>
   <header class="site-header">
-    <RouterLink to="/">{{ site.brand }}</RouterLink><!--生成一个无刷新跳转到首页的导航文字，文字内容从 site.json 配置文件读取，写在页面上显示。site.brand：json 文件中 brand 对应的文字（比如 “品牌”）-->
+    <RouterLink class="brand" to="/">{{ site.brand }}</RouterLink><!--生成一个无刷新跳转到首页的导航文字，文字内容从 site.json 配置文件读取，写在页面上显示。site.brand：json 文件中 brand 对应的文字（比如 “品牌”）-->
     <nav> 
       <RouterLink to="/">首页</RouterLink><!--这个'/'对应index.js里面的内容，其中规定了'/'匹配HomeView的内容-->
       <RouterLink to="/about">品牌</RouterLink><!--而在index.js中规定了这个'/about'匹配的是AboutView的内容-->
