@@ -5,6 +5,14 @@
     <!-- 图书信息 -->
     <div class="book-info">
       <h4 class="book-title" @click="$router.push(`/bookdetail/${item.id}`)"><!--路由跳转逻辑-->
+        <!--这里把当前点击这本书的 id 拼到网址上，跳转页面
+比如点 id=2 的书，浏览器地址变成：/bookdetail/2
+3. 跳转到 BookDetail.vue 详情页后，再从网址里把这个数字取出来，这就是要查找的目标 id。-->
+<!--${} 的作用：把变量的值塞进字符串里拼接
+/bookdetail/ 是固定文字路径；
+shturl. 是当前图书的编号变量；
+${shturl.} 会自动把 id 数字替换到字符串中间，完成拼接。
+-->
   {{ item.title }}
 </h4>
       <p class="book-author">作者：{{ item.author }}</p>
@@ -27,14 +35,25 @@ const props = defineProps(['item'])
   border-radius: 10px;
   /* 柔和轻微阴影，不厚重 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /*黑色、透明度仅 8%，淡淡的浅阴影，不会厚重刺眼。作用：让卡片从白色背景上浮出来，区分层次。*/
   /* 鼠标悬浮微微上浮，增加交互质感 */
   transition: all 0.3s ease;
+  /*all：卡片所有样式变化（位置、阴影等）都做动画；
+  0.3s：动画时长 0.3 秒；
+  ease：先慢、中间快、结尾慢，流畅不卡顿。
+  没有这行，悬浮效果会瞬间变化，加上后会平滑渐变。*/
   overflow: hidden;
+  /*overflow: hidden
+隐藏超出卡片范围的内容。
+比如图片边角、文字如果超出圆角区域，会被裁剪，保证圆角不会失效。
+*/
 }
 /* 悬浮上浮效果 */
 .book-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  /*translateY 垂直方向位移，-6px 代表向上移动 6 像素。鼠标放卡片上，卡片轻轻往上飘，立体交互感。*/
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);/*悬浮时阴影加深、变大：
+模糊范围变大，透明度提升到 12%，阴影更明显，强化 “上浮” 的立体效果。*/
 }
 /* 封面图圆角贴合卡片 */
 .book-img {

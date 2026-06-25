@@ -20,6 +20,11 @@
         <div class="hot-view">
           <!-- 滑动容器：带动画位移 -->
           <div class="scroll-wrap" :style="{ transform: `translateX(-${offset}px)` }">
+            <!--:style 动态行内样式，JS 变量控制样式
+                transform: translateX(值)：水平平移元素
+            -${offset}px:offset 是 ref 数字，代表向左滚动的像素距离
+                        负号 = 容器整体往左移动，视觉上卡片向右滑走
+                        模板字符串 `${变量}` 把数字拼进样式里-->
             <BookCard
               v-for="item in literaryBooks"
               :key="item.id"
@@ -45,6 +50,12 @@ const literaryBooks = allBooks.filter(item => item.category === '文学')
 const itemWidth = 210
 // 偏移像素
 const offset = ref(0)
+//1.ref(0)：创建一个能自动响应变化的数字变量，初始值是 0；
+//2.offset 代表轮播图片向左移动多少像素；
+//3.逻辑：
+//4.定时器每隔 4 秒执行 offset.value += 宽度，数字变大；
+//5.模板里通过 translateX(-${offset}px) 让图书整体往左滑动，实现自动轮播；
+//6.为什么用 ref？offset 数值一改，页面图片位置立刻自动更新
 let timer = null
 
 // 最大滚动距离：总长度 - 可视4本宽度
@@ -62,12 +73,24 @@ const slideOne = () => {
 // 页面加载开启自动轮播，4秒滑一本
 onMounted(() => {
   timer = setInterval(slideOne, 4000)
+  //① setInterval(要执行的函数, 4000)
+//setInterval 是 JS 自带定时器：每隔指定毫秒重复执行函数
+//第二个参数 4000 = 4000 毫秒 = 4 秒
+//这里就是：每 4 秒自动运行一次 slideOne ()
 })
+
+//onMounted 是 Vue 生命周期钩子，页面渲染完成后自动触发
+//页面一加载好，立刻启动 4 秒一次的自动轮播。
 
 // 销毁清除定时器
 onUnmounted(() => {
   clearInterval(timer)
 })
+
+//④ onUnmounted：为什么要清除定时器
+//当用户切换页面（比如点全部图书、去详情页），首页组件会被销毁。
+//如果不写 clearInterval(timer)，定时器会在后台一直跑，占用资源、出现错乱。
+//离开页面时手动关掉定时器，优化性能。
 </script>
 
 <style scoped>

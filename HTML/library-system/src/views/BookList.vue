@@ -31,7 +31,16 @@ const filterBooks = computed(() => {
   if (currentCate.value === '全部') return allBooks
   return allBooks.filter(item => item.category === currentCate.value)
 })//计算属性过滤图书
+
+//const currentCate = ref('全部')
+//创建响应式变量，页面刚加载默认选中分类为「全部」，点击分类按钮可以修改这个值。
+//filterBooks 是计算属性，会实时监听 currentCate 的变化：
+//如果当前选中值是「全部」，直接返回完整图书数组 allBooks，页面展示所有书籍；
+//如果选中文学 / 计算机 / 教材等其他分类，就用 filter 遍历所有图书，只保留 category 和当前选中分类一致的图书，返回筛选后的新数组。
+//模板循环 filterBooks，页面会自动同步展示对应图书。
 </script>
+
+
 
 <style scoped>
 .book-list {
@@ -73,4 +82,15 @@ const filterBooks = computed(() => {
   flex-wrap: wrap;
   gap: 20px;
 }
+
+/*
+1. ref 本质
+ref 会把普通数据包裹成一个对象，真正的值存在对象的 .value 属性里。
+一句话记牢
+脚本 JS 里操作 → 加 .value；HTML 模板里使用 → 不加 .value
+
+结论：ref和路由完全没关系，两个独立工具，各司其职
+ref：Vue 核心响应式 API，管理页面内的数据（分类、轮播数字、图书信息），数据变页面自动刷新。
+路由 (vue-router)：单独插件，管理页面跳转、浏览器地址栏，控制切换首页 / 介绍 / 列表 / 详情页。
+
 </style>
