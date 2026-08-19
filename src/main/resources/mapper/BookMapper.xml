@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.library.mapper.BookMapper">
+    <select id="getAll" resultType="org.example.library.entity.Book">
+            SELECT * FROM books
+    </select>
+
+    <insert id="addBooks" >
+        INSERT INTO bookmanager_db.books (name, author, price, stock)
+        VALUES(#{name}, #{author}, #{price}, #{stock});
+    </insert>
+    <select id="getBooksById" resultType="org.example.library.entity.Book">
+        SELECT * FROM books WHERE id = #{id}
+    </select>
+    <update id="updateBooks" parameterType="org.example.library.entity.Book">
+        UPDATE books
+        SET name = #{name},
+            author = #{author},
+            price = #{price},
+            stock = #{stock}
+        WHERE id = #{id}
+    </update>
+    <delete id="deleteBooks">
+        DELETE FROM books WHERE id = #{id}
+    </delete>
+
+</mapper>
+
+
+
