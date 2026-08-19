@@ -1,0 +1,340 @@
+package day16;
+
+import java.io.InterruptedIOException;
+
+/*
+需求：
+资源有姓名和性别。
+两个线程，
+	一个负责给姓名和性别赋值，
+	一个负责获取姓名和性别的值。
+
+参阅ThreadTest2.java文件
+
+要求1，运行一下，解决程序的 "妖"的问题。
+	分析过程：
+	加入同步，必须保证同一个锁，解决妖的问题。
+
+要求2，实现正确数据的间隔输出 如 
+张飞--男
+rose--女女女
+张飞--男 
+rose--女女女
+使用等待唤醒机制。
+wait(),notify(),notifyAll();
+
+对于等待都需要判断，定义条件。
+
+要求3，对代码进行重构。
+	将name，sex私有化，资源类提供对其访问的方法。
+
+要求4，将程序改成JDK1.5的Lock Condition接口。
+
+*/
+
+
+
+//描述资源。
+class Resource
+{
+    String name;
+    String sex;
+    //定义标记。
+    boolean flag = false;
+}
+//赋值线程任务
+class Input implements Runnable
+{
+    private Resource r;
+ //   private Object obj = new Object();
+    Input(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        int x = 0;//x是啥作用啊？后面实现切换。
+        while(true)//这里的目的就是让他一直循环！
+        {           
+            synchronized(r)
+            {
+                if(r.flag)
+                    try{r.wait();}catch(InterruptedException e){}
+                if(x == 0)
+                {
+                    r.name = "张飞";
+                    r.sex = "男";
+                }
+                else{
+                    r.name = "rose";
+                    r.sex = "女女女";
+                }
+                r.flag = true;
+                r.notify();
+            }
+            x = (x+1)%2;//实现切换。
+        }
+    }
+}
+//获取值线程任务
+class Output implements Runnable
+{
+    private Resource r;//为啥out和in里面都要定义，那怎么保证里面的r都是一样的呢？this.r=r;
+ //   private Object obj = new Object();
+    Output(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            synchronized(r)
+            {
+                if(!r.flag)
+                    try{this.wait();}catch(InterruptedException e){}
+                System.out.println(r.name+"..."+r.sex);//这里和上面if,else的任务其实是一起的，所以需要共享数据同步。
+                r.flag = false;
+                r.notify();
+            }
+    
+            
+        }
+    }
+}
+class ThreadTest2
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Input in = new Input(r);
+        Output out = new Output(r);
+        Thread t1 = new Thread(in);
+        Thread t2 = new Thread(out);
+        t1.start();
+        t2.start();
+    }
+}
+
+
+
+/*
+//同步前都要加判断吗？
+
+答：如果只是保护共享数据不被多个线程同时修改（比如两个
+线程对同一个计数器做递增操作），那么直接用 synchronized 包裹代码即可，
+不需要任何额外的条件判断
+
+当线程需要满足特定条件才能继续执行，否则应该等待时，就需要在同步块内判断条件。
+最常见的例子就是生产者-消费者模式。
+
+
+总结：
+
+纯互斥访问（如计数器、状态更新）→ 不需要条件判断。
+
+线程协作（如等待资源、信号通知）→ 必须加判断（通常用 while 循环）
+*/
+
+
+//3月12日  复习
+
+class Resource
+{
+	String name;
+	String sex;
+    boolean flag = false;
+}
+//赋值线程任务
+class Input implements Runnable
+{
+	private Resource r;
+//	private Object obj = new Object();
+	Input(Resource r)//任务一初始化就必须有要处理的资源。
+	{
+		this.r = r;
+	}
+	public void run()
+	{
+		int x = 0;
+		while(true)
+		{
+			synchronized(r)
+			{
+                if(r.flag)
+                    try{r.wait();}catch(InterruptedException e){}
+				if(x==0)
+				{
+					r.name = "张飞";
+					r.sex = "男";
+				}
+				else
+				{
+					r.name = "rose";
+					r.sex = "女女女女";
+				}
+                 r.flag = true;
+                 r.notify();
+			}
+			x = (x+1)%2;//实现切换。
+		}
+	}
+}
+//获取值线程任务
+class Output implements Runnable
+{
+	private Resource r ;
+//	private Object obj = new Object();
+	Output(Resource r)
+	{
+		this.r = r;
+	}
+	public void run()
+	{
+		while(true)
+		{
+			synchronized(r)
+			{
+                 if(!r.flag)
+                    //synchronized(r) 同步块使用的锁对象是 r（即共享的 Resource 实例）。
+                 // 调用 wait()、notify() 必须在持有该对象锁的前提下，并且调用者必须是锁对象本身。
+                    try{r.wait();}catch(InterruptedException e){}
+				System.out.println(r.name+"....."+r.sex);
+                r.flag = false;
+                r.notify();
+			}
+		}
+	}
+}
+
+class ThreadTest2
+{
+	public static void main(String[] args)
+	{
+		Resource r = new Resource();
+		Input in = new Input(r);
+		Output out = new Output(r);
+		Thread t1 = new Thread(in);
+		Thread t2 = new Thread(out);
+		t1.start();
+		t2.start();
+
+	}
+}
+
+
+
+//注意补充：
+/*
+为什么 notify 要写成 r.notify()？Resource 中定义 notify 了吗？
+
+
+答：notify() 是 java.lang.Object 类的公有方法，所有 Java 对象都继承自 Object，因此任何对象（包括 Resource 实例）都拥有 notify() 和 wait() 方法。
+Resource 类虽然没有显式定义这些方法，但它们是从 Object 继承来的，所以 r.notify() 是合法的。
+
+关键点：wait() 和 notify() 必须由当前持有锁的对象调用。在你的代码中，锁对象是 r，所以必须使用 r.wait() 和 r.notify()。
+
+
+*/
+
+
+/*
+class Resource
+{
+    String name;
+    String sex;
+    private boolean flag = false;
+}
+//赋值线程任务
+class Input implements Runnable
+{
+    private Resource r;
+ //   private Object obj = new Object();
+    Input(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        int x = 0;//x是啥作用啊？后面实现切换。
+        while(true)//这里的目的就是让他一直循环！
+        {           
+            synchronized(r)
+            {
+                if(r.flag)
+
+/*
+//注意：
+在 Java 中，if 语句的括号里是一个布尔表达式，当这个表达式的值为 true 时，就会执行后面的代码。
+所以程序会先确认，If括号里面的是不是true，也就是flag是否为true，如果为true，就等待！！！
+*/
+/* 
+
+                    try{r.wait();}catch(InterruptedException e){}
+
+
+                这里If后为啥不加else？
+
+                当 条件 为 true 时，执行 if 块内的代码（这里是 wait()），然后线程在 wait() 处暂停，不会继续执行 if 块后面的语句。
+
+当 条件 为 false 时，跳过 if 块，直接执行后面的代码（即生产代码）。
+
+所以，if 本身已经起到了“二选一”的作用：要么等待，要么生产。这正是我们需要的逻辑，不需要再写一个 else 分支。
+                if(x == 0)
+                {
+                    r.name = "张飞";
+                    r.sex = "男";
+                }
+                else{
+                    r.name = "rose";
+                    r.sex = "女女女";
+                }
+                r.flag = true;
+                r.notiy();
+            }
+            x = (x+1)%2;//实现切换。
+        }
+    }
+}
+//获取值线程任务
+class Output implements Runnable
+{
+    private Resource r;//为啥out和in里面都要定义，那怎么保证里面的r都是一样的呢？this.r=r;
+ //   private Object obj = new Object();
+    Output(Resource r)
+    {
+        this.r = r;
+    }
+    public void run()
+    {
+        while(true)
+        {
+            synchronized(r)
+            {
+                if(!flag)
+                 try{this.wait();}catch(InterrupException e){}    
+                     System.out.println(r.name+"..."+r.sex);
+                    r.flag = flase;
+                    r.notify();
+                   
+            }
+    
+            
+        }
+    }
+}
+class ThreadTest2
+
+{
+    public static void main(String[] args)
+    {
+        Resource r = new Resource();
+        Input in = new Input(r);
+        Output out = new Output(r);
+        Thread t1 = new Thread(in);
+        Thread t2 = new Thread(out);
+        t1.start();
+        t2.start();
+    }
+}
+*/

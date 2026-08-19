@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "title": "红楼梦",
+    "author": "曹雪芹",
+    "category": "文学",
+    "stock": 24,
+    "cover": "/images/book1.jpeg"
+  },
+  {
+    "id": 2,
+    "title": "百年孤独",
+    "author": "马尔克斯",
+    "category": "文学",
+    "stock": 16,
+    "cover": "/images/book2.jpeg"
+  },
+  {
+    "id": 3,
+    "title": "骆驼祥子",
+    "author": "老舍",
+    "category": "文学",
+    "stock": 31,
+    "cover": "/images/book3.jpeg"
+  },
+  {
+    "id": 4,
+    "title": "活着",
+    "author": "余华",
+    "category": "文学",
+    "stock": 27,
+    "cover": "/images/book4.jpeg"
+  },
+  {
+    "id": 5,
+    "title": "朝花夕拾",
+    "author": "鲁迅",
+    "category": "文学",
+    "stock": 22,
+    "cover": "/images/book5.jpeg"
+  },
+  {
+    "id": 6,
+    "title": "瓦尔登湖",
+    "author": "梭罗",
+    "category": "文学",
+    "stock": 14,
+    "cover": "/images/book6.jpeg"
+  },
+  {
+    "id": 7,
+    "title": "围城",
+    "author": "钱钟书",
+    "category": "文学",
+    "stock": 19,
+    "cover": "/images/book7.jpeg"
+  },
+  {
+    "id": 8,
+    "title": "小王子",
+    "author": "圣埃克苏佩里",
+    "category": "文学",
+    "stock": 33,
+    "cover": "/images/book8.jpeg"
+  },
+  {
+    "id": 9,
+    "title": "Vue3前端开发实战",
+    "author": "王松",
+    "category": "计算机",
+    "stock": 13,
+    "cover": "/images/book9.jpg"
+  },
+  {
+    "id": 10,
+    "title": "计算机网络第七版",
+    "author": "谢希仁",
+    "category": "计算机",
+    "stock": 9,
+    "cover": "/images/book10.jpg"
+  },
+  {
+    "id": 11,
+    "title": "数据结构与算法分析",
+    "author": "严蔚敏",
+    "category": "计算机",
+    "stock": 11,
+    "cover": "/images/book11.jpeg"
+  },
+  {
+    "id": 12,
+    "title": "C++程序设计",
+    "author": "谭浩强",
+    "category": "计算机",
+    "stock": 18,
+    "cover": "/images/book12.png"
+  },
+  {
+    "id": 13,
+    "title": "高等数学上册",
+    "author": "同济大学数学系",
+    "category": "教材",
+    "stock": 42,
+    "cover": "/images/book13.jpg"
+  },
+  {
+    "id": 14,
+    "title": "大学英语精读1",
+    "author": "董亚芬",
+    "category": "教材",
+    "stock": 36,
+    "cover": "/images/book14.jpeg"
+  }
+]

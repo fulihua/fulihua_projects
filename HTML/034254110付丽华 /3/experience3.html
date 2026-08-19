@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易图片切换</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+       
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+
+        .image-container {
+            width: 600px;
+            height: 400px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        
+        #displayImage {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+        }
+
+
+        button {
+            padding: 10px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #409eff;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #66b1ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>图片切换展示</h1>
+    <!-- 图片展示区域 -->
+    <div class="image-container">
+        <img id="displayImage" src="https://picsum.photos/id/237/600/400" alt="展示图片">
+    </div>
+    <!-- 切换按钮 -->
+    <div class="button-group">
+        <button id="prevBtn">上一张</button>
+        <button id="nextBtn">下一张</button>
+    </div>
+
+    <script>
+        // 图片数组（预先准备3张不同图片）
+        const images = [
+            "https://picsum.photos/id/237/600/400",
+            "https://picsum.photos/id/238/600/400",
+            "https://picsum.photos/id/239/600/400"
+        ];
+        // 当前显示的图片索引，默认显示第一张
+        let currentIndex = 0;
+        // 获取DOM元素
+        const displayImage = document.getElementById('displayImage');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // 下一张按钮点击事件
+        nextBtn.addEventListener('click', function() {
+            // 索引+1，取模实现循环
+            currentIndex = (currentIndex + 1) % images.length;
+            // 更新图片
+            displayImage.src = images[currentIndex];
+        });
+
+        // 上一张按钮点击事件
+        prevBtn.addEventListener('click', function() {
+            // 索引-1，加数组长度后取模，避免负数
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            // 更新图片
+            displayImage.src = images[currentIndex];
+        });
+    </script>
+</body>
+</html>
