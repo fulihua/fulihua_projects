@@ -11,6 +11,15 @@ public class Book {
     private String author;
     private Double price;
     private Integer stock;
+    private Integer borrowCount;
+
+    public Integer getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void setBorrowCount(Integer borrowCount) {
+        this.borrowCount = borrowCount;
+    }
 
     public Book(){}
 

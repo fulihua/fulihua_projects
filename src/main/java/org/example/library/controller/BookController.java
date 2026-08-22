@@ -36,4 +36,8 @@ public class BookController {
     }
     @DeleteMapping("/{id}")
     public int deleteBooks(@PathVariable int id){return bookservice.deleteBooks(id);}
+    @PostMapping("/borrow/{id}")
+    public String borrowBook(@PathVariable int id){bookservice.borrowBook(id);return"借书成功!";}
+    @PostMapping("/return/{id}")
+    public String returnBook(@PathVariable int id){bookservice.returnBook(id);return"还书成功!";}
 }

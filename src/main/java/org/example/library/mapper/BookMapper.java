@@ -11,4 +11,7 @@ public interface BookMapper {
      Book getBooksById(int id);
      int updateBooks(Book book);
      int deleteBooks(int id);
+     Integer getStockById(Integer id);
+     void decreaseStock(Integer id);
+     void increaseStock(Integer id);
 }

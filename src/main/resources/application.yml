@@ -9,3 +9,9 @@ spring:
 mybatis:
     mapper-locations: classpath:mapper/*.xml
     type-aliases-package: org.example.library.entity
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.example.library: DEBUG
+    com.zaxxer.hikari: DEBUG

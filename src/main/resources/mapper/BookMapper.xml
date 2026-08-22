@@ -5,7 +5,16 @@
 
 <mapper namespace="org.example.library.mapper.BookMapper">
     <select id="getAll" resultType="org.example.library.entity.Book">
-            SELECT * FROM books
+            SELECT
+                b.id,
+                b.name,
+                b.author,
+                b.price,
+                b.stock,
+                COUNT(br.id) AS borrowCount
+            FROM books b
+            LEFT JOIN borrow_records br ON b.id = br.book_id
+            GROUP BY b.id
     </select>
 
     <insert id="addBooks" >
@@ -27,6 +36,13 @@
         DELETE FROM books WHERE id = #{id}
     </delete>
 
+    <update id="decreaseStock">
+        UPDATE books SET stock = stock - 1 WHERE id = #{id}
+    </update>
+
+    <update id="increaseStock">
+        UPDATE books SET stock = stock + 1 WHERE id = #{id}
+    </update>
 </mapper>
 
 
